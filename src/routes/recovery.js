@@ -4,13 +4,16 @@ const dbRecovery = require('../dbrecovery');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const router = express.Router();
 
-// Simulación de un servicio de envío de correo electrónico
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Cambiar a tu servicio de correo
+  host: 'multiverse.cl',
+  port: 465,
+  secure: true,
   auth: {
+    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
     user: process.env.SENDER_EMAIL,
     pass: process.env.SENDER_EMAIL_PASS,
   },
@@ -52,7 +55,7 @@ router.post('/request-reset', (req, res) => {
 
         transporter.sendMail(mailOptions, (err, info) => {
           if (err) {
-            return res.status(500).send('Error al enviar correo electrónico');
+            return res.status(500).send('Error al enviar correo electrónico' + err);
           }
           res.send('Correo de restablecimiento enviado');
         });
