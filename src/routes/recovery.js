@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
     user: process.env.SENDER_EMAIL,
     pass: process.env.SENDER_EMAIL_PASS,
   },
@@ -57,7 +56,7 @@ router.post('/request-reset', (req, res) => {
           if (err) {
             return res.status(500).send('Error al enviar correo electrónico' + err);
           }
-          res.send('Correo de restablecimiento enviado');
+          res.send('Correo de restablecimiento enviado a ' + email);
         });
       }
     );
